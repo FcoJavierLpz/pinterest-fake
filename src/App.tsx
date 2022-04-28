@@ -3,15 +3,13 @@ import AuthContextProvider from './context/authContextProvider'
 import Home from './pages/Home'
 import NotFound from './pages/NotFound'
 import RequireAuth from './components/RequireAuth'
-import SignIn from './pages/SignIn'
-import SignUp from './pages/SignUp'
+import Login from './pages/Login'
 
 function App() {
   return (
     <AuthContextProvider>
       <Routes>
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
         <Route
           path="/"
           element={
