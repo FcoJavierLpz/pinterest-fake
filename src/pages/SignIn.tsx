@@ -22,7 +22,7 @@ const SignIn = () => {
     e.preventDefault()
     setError('')
     try {
-      await signIn(user.email, user.password)
+      await signIn?.(user.email, user.password)
       navigate('/')
     } catch (err: any) {
       setError(err?.message)
@@ -31,7 +31,7 @@ const SignIn = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      await loginWithGoogle()
+      await loginWithGoogle?.()
       navigate('/')
     } catch (err: any) {
       setError(err?.message)
