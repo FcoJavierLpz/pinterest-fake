@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { auth, Providers } from '../config/firebase'
 import { AuthContext } from './authContext'
 
-const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const [user, setUser] = useState<object | null>(null)
 
   useEffect(() => {
