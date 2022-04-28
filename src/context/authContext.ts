@@ -2,15 +2,21 @@ import { UserCredential } from 'firebase/auth'
 import { createContext, useContext } from 'react'
 
 interface AuthContextInterface {
-  signUp: (email: string, password: string) => Promise<UserCredential>
-  signIn: (email: string, password: string) => Promise<UserCredential>
-  loginWithGoogle: () => Promise<UserCredential>
+  signUp?: (email: string, password: string) => Promise<UserCredential>
+  signIn?: (email: string, password: string) => Promise<UserCredential>
+  loginWithGoogle?: () => Promise<UserCredential>
   logout: () => void
-  user: object | null
+  user: { displayName: string; email: string }
   loading: boolean
 }
 
-const AuthContext = createContext<AuthContextInterface | null>(null)
+const authContextDefaults: AuthContextInterface = {
+  logout: () => null,
+  user: { displayName: '', email: '' },
+  loading: false
+}
+
+const AuthContext = createContext<AuthContextInterface>(authContextDefaults)
 
 const useAuth = () => {
   const context = useContext(AuthContext)
