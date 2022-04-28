@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { useAuth } from '../context/authContext'
 import { useNavigate } from 'react-router-dom'
 import Alert from '../components/Alert'
+import useAuth from '../hooks/useAuth'
 
 const SignUp = () => {
   const [user, setUser] = useState({

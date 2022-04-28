@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Alert from '../components/Alert'
-import { useAuth } from '../context/authContext'
+import useAuth from '../hooks/useAuth'
 
 const SignIn = () => {
   const [user, setUser] = useState({

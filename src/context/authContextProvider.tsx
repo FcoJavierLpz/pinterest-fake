@@ -4,14 +4,16 @@ import { AuthContext } from './authContext'
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState<object | null>(null)
-  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const unsubscribe = Providers.onAuthStateChanged(
       auth,
       (currentUser: object | null) => {
-        setUser(currentUser)
-        setLoading(false)
+        if (currentUser) {
+          setUser(currentUser)
+        } else {
+          setUser(null)
+        }
       }
     )
 
@@ -29,7 +31,7 @@ const AuthProvider = ({ children }) => {
 
   const logout = () => Providers.signOut(auth)
 
-  const value = { signUp, signIn, loginWithGoogle, logout, user, loading }
+  const value = { signUp, signIn, loginWithGoogle, logout, user }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
