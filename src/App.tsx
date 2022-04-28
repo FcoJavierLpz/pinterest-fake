@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom'
 import AuthContextProvider from './context/authContextProvider'
 import Home from './pages/Home'
 import NotFound from './pages/NotFound'
-import ProtectedRoute from './components/ProtectedRoute'
+import RequireAuth from './components/RequireAuth'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 
@@ -15,9 +15,9 @@ function App() {
         <Route
           path="/"
           element={
-            <ProtectedRoute>
+            <RequireAuth>
               <Home />
-            </ProtectedRoute>
+            </RequireAuth>
           }
         />
         <Route path="*" element={<NotFound />} />
