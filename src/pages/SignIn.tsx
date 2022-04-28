@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+
 import Alert from '../components/Alert'
 import useAuth from '../hooks/useAuth'
 
@@ -11,19 +12,30 @@ const SignIn = () => {
 
   const [error, setError] = useState<string | undefined>('')
 
-  const { signIn, loginWithGoogle } = useAuth()
+  type LocationProps = {
+    state: {
+      from: Location
+    }
+  }
+
   const navigate = useNavigate()
+  const location = useLocation() as unknown as LocationProps
+  const { signIn, loginWithGoogle } = useAuth()
+
+  const from = location.state?.from?.pathname || '/'
 
   const handleChange = ({
     target: { name, value }
   }: React.ChangeEvent<HTMLInputElement>) => setUser({ ...user, [name]: value })
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault()
+
     setError('')
     try {
       await signIn?.(user.email, user.password)
-      navigate('/')
+
+      navigate(from, { replace: true })
     } catch (err: any) {
       setError(err?.message)
     }
@@ -32,7 +44,8 @@ const SignIn = () => {
   const handleGoogleSignIn = async () => {
     try {
       await loginWithGoogle?.()
-      navigate('/')
+
+      navigate(from, { replace: true })
     } catch (err: any) {
       setError(err?.message)
     }
