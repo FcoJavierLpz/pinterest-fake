@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-
-import Alert from '../components/Alert'
+import { getErrorMessage, reportError } from '../services/logger'
 import useAuth from '../hooks/useAuth'
 
 const SignIn = () => {
@@ -9,8 +8,6 @@ const SignIn = () => {
     email: '',
     password: ''
   })
-
-  const [error, setError] = useState<string | undefined>('')
 
   type LocationProps = {
     state: {
@@ -31,13 +28,12 @@ const SignIn = () => {
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
 
-    setError('')
     try {
       await signIn?.(user.email, user.password)
 
       navigate(from, { replace: true })
-    } catch (err: any) {
-      setError(err?.message)
+    } catch (err) {
+      reportError({ message: getErrorMessage(err) })
     }
   }
 
@@ -46,14 +42,13 @@ const SignIn = () => {
       await loginWithGoogle?.()
 
       navigate(from, { replace: true })
-    } catch (err: any) {
-      setError(err?.message)
+    } catch (err) {
+      reportError({ message: getErrorMessage(err) })
     }
   }
+
   return (
     <div>
-      {error && <Alert message={error} />}
-
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">Email</label>
         <input
