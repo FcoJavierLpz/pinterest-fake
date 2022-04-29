@@ -6,8 +6,7 @@ interface ImportMetaEnv {
   VITE_FIREBASE_MESSAGING_SENDER_ID: string
   VITE_FIREBASE_APP_ID: string
   VITE_API_URL: string
-  VITE_API_CLIENT_ID: string
-  VITE_API_CLIENT_SECRET: string
+  VITE_API_KEY: string
 }
 
 interface ImportMeta {
