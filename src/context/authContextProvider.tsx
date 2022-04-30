@@ -1,37 +1,42 @@
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  User
+} from 'firebase/auth'
 import { useEffect, useState } from 'react'
-import { auth, Providers } from '../config/firebase'
+
+import { auth } from '../config/firebase'
 import { AuthContext } from './authContext'
 
 const AuthProvider = ({ children }: { children: JSX.Element }) => {
-  const [user, setUser] = useState<object | null>(null)
+  const [user, setUser] = useState<User | null>(auth.currentUser)
+
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const unsubscribe = Providers.onAuthStateChanged(
-      auth,
-      (currentUser: object | null) => {
-        if (currentUser) {
-          setUser(currentUser)
-        } else {
-          setUser(null)
-        }
-      }
-    )
+    const unsubscribe = onAuthStateChanged(auth, currentUser => {
+      setUser(currentUser)
+      setLoading(false)
+    })
 
     return () => unsubscribe()
   }, [])
 
   const signUp = (email: string, password: string) =>
-    Providers.createUserWithEmailAndPassword(auth, email, password)
+    createUserWithEmailAndPassword(auth, email, password)
 
   const signIn = (email: string, password: string) =>
-    Providers.signInWithEmailAndPassword(auth, email, password)
+    signInWithEmailAndPassword(auth, email, password)
 
-  const loginWithGoogle = () =>
-    Providers.signInWithSocialMedia(auth, new Providers.Google())
+  const loginWithGoogle = () => signInWithPopup(auth, new GoogleAuthProvider())
 
-  const logout = () => Providers.signOut(auth)
+  const logout = () => signOut(auth)
 
-  const value = { signUp, signIn, loginWithGoogle, logout, user }
+  const value = { signUp, signIn, loginWithGoogle, logout, user, loading }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

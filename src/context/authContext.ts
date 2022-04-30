@@ -1,4 +1,4 @@
-import { UserCredential } from 'firebase/auth'
+import { UserCredential, User } from 'firebase/auth'
 import { createContext } from 'react'
 
 interface AuthContextInterface {
@@ -6,12 +6,14 @@ interface AuthContextInterface {
   signIn?: (email: string, password: string) => Promise<UserCredential>
   loginWithGoogle?: () => Promise<UserCredential>
   logout: () => void
-  user: { displayName: string; email: string }
+  user: User | null
+  loading: boolean
 }
 
 const authContextDefaults: AuthContextInterface = {
   logout: () => null,
-  user: { displayName: '', email: '' }
+  user: null,
+  loading: true
 }
 
 const AuthContext = createContext<AuthContextInterface>(authContextDefaults)
