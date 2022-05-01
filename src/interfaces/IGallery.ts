@@ -1,10 +1,10 @@
-export interface Gallery {
-  data: Datum[]
+export interface IGallery {
+  data: SubReddit[]
   success: boolean
   status: number
 }
 
-export interface Datum {
+export interface SubReddit {
   id: string
   title: string
   description: null | string
