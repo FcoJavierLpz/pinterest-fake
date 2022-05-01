@@ -1,15 +1,9 @@
-import React from 'react'
+import { SVGProps } from 'react'
 
-type LogoProps = {
-  className?: string
-  fill?: string
-}
-
-const logo = ({ className, fill }: LogoProps) => {
+const logo = ({ ...rest }: SVGProps<SVGSVGElement>) => {
   return (
     <svg
-      className={className}
-      fill={fill}
+      {...rest}
       height="32"
       width="32"
       viewBox="0 0 32 32"

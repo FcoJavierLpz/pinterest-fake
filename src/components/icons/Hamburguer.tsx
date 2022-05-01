@@ -1,13 +1,8 @@
-import React from 'react'
+import { SVGProps } from 'react'
 
-const Hamburguer = ({ className }) => {
+const Hamburguer = ({ ...rest }: SVGProps<SVGSVGElement>) => {
   return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg {...rest} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M2 6C2 5.73478 2.10536 5.48043 2.29289 5.29289C2.48043 5.10536 2.73478 5 3 5H21C21.2652 5 21.5196 5.10536 21.7071 5.29289C21.8946 5.48043 22 5.73478 22 6C22 6.26522 21.8946 6.51957 21.7071 6.70711C21.5196 6.89464 21.2652 7 21 7H3C2.73478 7 2.48043 6.89464 2.29289 6.70711C2.10536 6.51957 2 6.26522 2 6V6Z"
         fill="black"

@@ -1,18 +1,8 @@
-import React from 'react'
+import { SVGProps } from 'react'
 
-type LoadingProps = {
-  className?: string
-  fill?: string
-}
-
-const Loading = ({ className, fill }: LoadingProps) => {
+const Loading = ({ ...rest }: SVGProps<SVGSVGElement>) => {
   return (
-    <svg
-      className={className}
-      fill={fill}
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg {...rest} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path
         opacity="0.05"
         fillRule="evenodd"
