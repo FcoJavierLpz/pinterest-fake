@@ -1,5 +1,4 @@
 import Gallery from '../components/Gallery'
-import Loading from '../components/icons/Loading'
 import NavBar from '../components/NavBar'
 import useAuth from '../hooks/useAuth'
 
@@ -16,9 +15,6 @@ const Home = () => {
           </h1>
         </div>
         <Gallery />
-        <div className="flex justify-center items-center py-12">
-          <Loading className="w-8 h-8 text-indigo-600 animate-spin" />
-        </div>
       </main>
     </div>
   )
