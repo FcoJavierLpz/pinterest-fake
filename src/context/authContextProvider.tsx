@@ -14,7 +14,6 @@ import { AuthContext } from './authContext'
 
 const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const [user, setUser] = useState<User | null>(auth.currentUser)
-
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
