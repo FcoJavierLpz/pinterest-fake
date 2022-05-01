@@ -1,7 +1,7 @@
 import { FieldError } from 'react-hook-form'
 
 type Props = {
-  error: FieldError | undefined
+  error?: FieldError
 }
 
 const FormError = ({ error }: Props) => {
