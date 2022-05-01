@@ -1,14 +1,15 @@
-import { useRef } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { getErrorMessage, reportError } from '../services/logger'
-import useAuth from '../hooks/useAuth'
+
 import imgBackground from '../assets/bg-right.svg'
+import FormCheckbox from '../components/FormCheckbox'
+import FormError from '../components/FormError'
+import FormInput from '../components/FormInput'
+import useAuth from '../hooks/useAuth'
+import { firebaseErrors, isFirebaseError } from '../utils/firebaseErrors'
+import { formValidate } from '../utils/formValidate'
 
 const SignIn = () => {
-  const nameRef = useRef<HTMLInputElement>(null)
-  const emailRef = useRef<HTMLInputElement>(null)
-  const passwordRef = useRef<HTMLInputElement>(null)
-
   type LocationProps = {
     state: {
       from: Location
@@ -19,29 +20,44 @@ const SignIn = () => {
   const location = useLocation() as unknown as LocationProps
   const { signUp, signIn, loginWithGoogle } = useAuth()
 
+  const { required, patternEmail, minLength } = formValidate()
+
+  type FormValues = {
+    username: string
+    email: string
+    password: string
+  }
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError
+  } = useForm<FormValues>()
+
   const from = location.state?.from?.pathname || '/'
 
-  const createUser = async () => {
+  const createUser: SubmitHandler<FormValues> = async ({ email, password }) => {
     try {
-      await signUp?.(
-        emailRef.current?.value ?? '',
-        passwordRef.current?.value ?? ''
-      )
+      await signUp?.(email, password)
       navigate('/')
-    } catch (err) {
-      reportError({ message: getErrorMessage(err) })
+    } catch (error) {
+      if (isFirebaseError(error)) {
+        const { code, message } = firebaseErrors(error)
+        setError(code, { message })
+      }
     }
   }
-  const LoginUser = async () => {
+  const LoginUser = async ({ email, password }) => {
     try {
-      await signIn?.(
-        emailRef.current?.value ?? '',
-        passwordRef.current?.value ?? ''
-      )
+      await signIn?.(email, password)
 
       navigate(from, { replace: true })
-    } catch (err) {
-      reportError({ message: getErrorMessage(err) })
+    } catch (error) {
+      if (isFirebaseError(error)) {
+        const { code, message } = firebaseErrors(error)
+        setError(code, { message })
+      }
     }
   }
 
@@ -50,8 +66,11 @@ const SignIn = () => {
       await loginWithGoogle?.()
 
       navigate(from, { replace: true })
-    } catch (err) {
-      reportError({ message: getErrorMessage(err) })
+    } catch (error) {
+      if (isFirebaseError(error)) {
+        const { code, message } = firebaseErrors(error)
+        setError(code, { message })
+      }
     }
   }
 
@@ -100,91 +119,55 @@ const SignIn = () => {
             <div className="w-full text-left">
               <form onSubmit={evt => evt.preventDefault()}>
                 <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium leading-8 text-gray-700"
-                  >
-                    Username
-                  </label>
-                  <div className="mt-2 rounded-md">
-                    <input
-                      id="name"
-                      type="name"
-                      placeholder="name"
-                      name="name"
-                      ref={nameRef}
-                      className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                    />
-                  </div>
+                  <FormInput
+                    type="text"
+                    placeholder="Username"
+                    {...register('username', {
+                      required,
+                      minLength
+                    })}
+                    error={errors.username}
+                  />
+                  <FormError error={errors.username} />
                 </div>
                 <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium leading-8 text-gray-700"
-                  >
-                    Email address
-                  </label>
-                  <div className="mt-2 rounded-md">
-                    <input
-                      id="email"
-                      type="email"
-                      placeholder="Email"
-                      name="email"
-                      ref={emailRef}
-                      className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                    />
-                  </div>
+                  <FormInput
+                    type="email"
+                    placeholder="Email address"
+                    {...register('email', {
+                      required,
+                      pattern: patternEmail
+                    })}
+                    error={errors.email}
+                  />
+                  <FormError error={errors.email} />
                 </div>
                 <div className="mt-2">
-                  <label
-                    htmlFor="password"
-                    className="block text-sm font-medium leading-8 text-gray-700"
-                  >
-                    Password
-                  </label>
-                  <div className="mt-2 rounded-md">
-                    <input
-                      type="password"
-                      placeholder="Password"
-                      name="password"
-                      ref={passwordRef}
-                      className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                    />
-                  </div>
+                  <FormInput
+                    type="password"
+                    placeholder="Password"
+                    {...register('password', {
+                      required,
+                      minLength
+                    })}
+                    error={errors.password}
+                  />
+                  <FormError error={errors.password} />
                 </div>
-                <div className="mt-2 flex flex-col md:flex-row justify-between">
-                  <div className="flex items-center">
-                    <input
-                      id="remember-me"
-                      type="checkbox"
-                      className="form-checkbox h-4 w-4 accent-orange-600 transition duration-150 ease-in-out"
-                    />
-                    <label
-                      htmlFor="remember-me"
-                      className="ml-2 block text-sm leading-5 text-gray-900"
-                    >
-                      I agree to the{' '}
-                      <a href="#" className="text-orange-600">
-                        Terms
-                      </a>{' '}
-                      and{' '}
-                      <a href="#" className="text-orange-600">
-                        Privacy Policy
-                      </a>
-                    </label>
-                  </div>
+                <div className="mt-3 flex flex-col md:flex-row justify-between">
+                  <FormCheckbox />
                 </div>
                 <div className="mt-10">
                   <div className="flex gap-5">
                     <button
-                      onClick={createUser}
+                      onClick={handleSubmit(createUser)}
                       type="submit"
                       className="w-full flex justify-center py-3 px-5 border border-transparent text-md font-medium rounded-md text-white bg-orange-600 focus:outline-none focus:shadow-outline-indigo transition duration-150 ease-in-out"
                     >
                       Sign Up
                     </button>
                     <button
-                      onClick={LoginUser}
+                      onClick={handleSubmit(LoginUser)}
                       type="submit"
                       className="w-full flex justify-center py-3 px-5 text-md font-medium rounded-md  border border-orange-600 text-orange-600 focus:outline-none focus:shadow-outline-indigo transition duration-150 ease-in-out"
                     >
