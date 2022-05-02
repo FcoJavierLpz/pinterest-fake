@@ -16,7 +16,7 @@ const ImageCard = ({ img }: Props) => {
 
   return (
     <figure
-      className="py-4 [break-inside:avoid] relative"
+      className="py-4 [break-inside:avoid] cursor-pointer relative"
       ref={ref}
       data-inview={inView}
     >
