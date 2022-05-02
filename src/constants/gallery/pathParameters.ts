@@ -3,7 +3,10 @@ export enum SORT {
 }
 
 export enum WINDOW {
-  DAY = 'day'
+  DAY = 'day',
+  WEEK = 'week',
+  MONTH = 'month',
+  YEAR = 'year'
 }
 
 export enum PAGE {
