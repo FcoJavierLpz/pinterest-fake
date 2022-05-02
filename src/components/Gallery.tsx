@@ -23,7 +23,7 @@ const Gallery = () => {
 
   const getImagesFromSubReddit = subReddit =>
     subReddit
-      .filter(g => {
+      ?.filter(g => {
         return (
           g?.images?.length && g.images.every(i => i.type.startsWith('image'))
         )
