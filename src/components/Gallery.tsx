@@ -1,14 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 
 import Loading from '../components/icons/Loading'
 import useGallery from '../hooks/useGallery'
 import ImageCard from './ImageCard'
 import SearchBox from './SearchBox'
+import ImageViewer from '../components/ImageViewer'
 
 const Gallery = () => {
   const [pageNum, setPageNum] = useState(0)
   const [searchQuery, setSearchQuery] = useState('')
+  const [currentImage, setCurrentImage] = useState(0)
+  const [isViewerOpen, setIsViewerOpen] = useState(false)
   const { fetchGallery, fetchGalleryByTags, images, loading } = useGallery()
 
   const MIN_LENGTH_SEARCH = 3
@@ -16,6 +19,16 @@ const Gallery = () => {
   const { ref, inView } = useInView({
     triggerOnce: true
   })
+
+  const openImageViewer = useCallback(index => {
+    setCurrentImage(index)
+    setIsViewerOpen(true)
+  }, [])
+
+  const closeImageViewer = () => {
+    setCurrentImage(0)
+    setIsViewerOpen(false)
+  }
 
   useEffect(() => {
     if (inView) {
@@ -42,17 +55,43 @@ const Gallery = () => {
         {images?.length ? (
           images.map((image, index) => {
             if (images[images.length - 1].id !== image.id) {
-              return <ImageCard key={`${index}${image.id}`} img={image} />
+              return (
+                <div
+                  key={`${index}${image.id}`}
+                  onClick={() => openImageViewer(index)}
+                >
+                  <ImageCard img={image} />
+                </div>
+              )
             }
 
             return (
-              <div key={`${index}${image.id}`} ref={ref} data-inview={inView}>
+              <div
+                onClick={() => openImageViewer(index)}
+                key={`${index}${image.id}`}
+                ref={ref}
+                data-inview={inView}
+              >
                 <ImageCard img={image} />
               </div>
             )
           })
         ) : (
           <div className="mx-5">Sin Resultados</div>
+        )}
+
+        {isViewerOpen && (
+          <ImageViewer
+            src={images.map(img => img.link)}
+            currentIndex={currentImage}
+            onClose={closeImageViewer}
+            disableScroll={false}
+            backgroundStyle={{
+              backgroundColor: 'rgba(0,0,0,0.4)',
+              backdropFilter: 'blur(10px) saturate(150%) brightness(100%)'
+            }}
+            closeOnClickOutside={true}
+          />
         )}
       </div>
       {loading ? (
