@@ -19,12 +19,12 @@ const NavBar = () => {
           <a className="hidden md:inline-block" href="#">
             <Logo fill="#e60023" />
           </a>
-          <h1 className="text-2xl font-medium">
+          <h1 className="text-sm sm:text-lg font-medium md:text-2xl">
             Bienvenido {user?.displayName || user?.email}
           </h1>
-          <div className="flex flex-row-reverse gap-x-2 items-center md:gap-x-4 lg:flex-row">
+          <div className="flex gap-x-2 items-center md:gap-x-4 lg:flex-row">
             <button
-              className="hidden lg:inline-block py-1.5 px-5 rounded-full border border-gray-200"
+              className="lg:inline-block py-1.5 px-5 rounded-full border border-gray-200"
               onClick={handleLogout}
             >
               SignOut
