@@ -40,6 +40,16 @@ For develop cycle use:
 $ npm run dev
 ```
 
+  <h2 style="color: orangered">⚠️ Caveats</h2>
+
+**Development mode** (domain crossover issues):
+
+- To consume the imgur services you must launch the application on your local network which deploys vitejs after running npm run dev.
+
+- To consume the google authentication service it must be launched from the localhost.
+
+- Into website with the reverse proxy configuration these problems do not apply.
+
 ### Testing static
 
 **Linters & Formatters**
