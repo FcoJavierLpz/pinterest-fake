@@ -13,7 +13,7 @@
 
   [[redirects]]
     from = "/api"
-    to = "hhttps://api.imgur.com/3/"
+    to = "https://api.imgur.com/3/"
     status = 200
     force = true
 
