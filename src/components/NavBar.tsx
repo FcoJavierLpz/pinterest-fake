@@ -19,11 +19,9 @@ const NavBar = () => {
           <a className="hidden md:inline-block" href="#">
             <Logo fill="#e60023" />
           </a>
-          <input
-            className="hidden sm:inline-block flex-1 py-1.5 px-4 mx-4 text-gray-700 bg-gray-100 rounded-full border border-gray-100 transition focus:outline-none focus:bg-white focus:border-gray-700"
-            type="text"
-            placeholder="Search"
-          />
+          <h1 className="text-2xl font-medium">
+            Bienvenido {user?.displayName || user?.email}
+          </h1>
           <div className="flex flex-row-reverse gap-x-2 items-center md:gap-x-4 lg:flex-row">
             <button
               className="hidden lg:inline-block py-1.5 px-5 rounded-full border border-gray-200"
