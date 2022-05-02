@@ -30,9 +30,6 @@ const Gallery = () => {
   useEffect(() => {
     if (searchQuery.length > MIN_LENGTH_SEARCH) {
       fetchGalleryByTags(searchQuery)
-    } else {
-      setPageNum(0)
-      fetchGallery(pageNum)
     }
   }, [searchQuery])
 
