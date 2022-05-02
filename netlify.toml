@@ -16,6 +16,7 @@
     to = "https://api.imgur.com/3/"
     status = 200
     force = true
+    headers = {Referrer-Policy = "strict-origin-when-cross-origin"}
 
   ## (optional) Settings for Netlify Dev
   ## https://github.com/netlify/cli/blob/main/docs/netlify-dev.md#project-detection
