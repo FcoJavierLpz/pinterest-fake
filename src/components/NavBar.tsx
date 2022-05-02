@@ -3,7 +3,7 @@ import Hamburguer from '../components/icons/Hamburguer'
 import useAuth from '../hooks/useAuth'
 
 const NavBar = () => {
-  const { logout } = useAuth()
+  const { user, logout } = useAuth()
 
   const handleLogout = () => {
     logout()
@@ -33,7 +33,10 @@ const NavBar = () => {
             </button>
             <button className="object-cover overflow-hidden w-10 h-10 rounded-full border border-gray-200">
               <img
-                src="https://tailwindcollections-gallery-page.netlify.app/img/avatar-1.jpeg"
+                src={
+                  user?.photoURL ||
+                  'https://tailwindcollections-gallery-page.netlify.app/img/avatar-1.jpeg'
+                }
                 alt=""
               />
             </button>
