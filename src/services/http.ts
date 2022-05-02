@@ -5,6 +5,7 @@ import * as STATUS from '../constants/http/status'
 import * as HEADERS from '../constants/http/headers'
 
 const instance = axios.create({
+  baseURL: config.isProd ? config.apiUrl : '/',
   headers: {
     [HEADERS.NAME.AUTHORIZATION]: `${HEADERS.VALUE.CLIENT_ID} ${config.apiKey}`
   }
