@@ -14,8 +14,6 @@ const Gallery = () => {
   const [isViewerOpen, setIsViewerOpen] = useState(false)
   const { fetchGallery, fetchGalleryByTags, images, loading } = useGallery()
 
-  const MIN_LENGTH_SEARCH = 3
-
   const { ref, inView } = useInView({
     triggerOnce: true
   })
@@ -37,14 +35,12 @@ const Gallery = () => {
   }, [inView])
 
   useEffect(() => {
-    fetchGallery(pageNum)
-  }, [pageNum])
-
-  useEffect(() => {
-    if (searchQuery.length > MIN_LENGTH_SEARCH) {
+    if (!searchQuery.length) {
+      fetchGallery(pageNum)
+    } else {
       fetchGalleryByTags(searchQuery)
     }
-  }, [searchQuery])
+  }, [pageNum, searchQuery])
 
   return (
     <>
