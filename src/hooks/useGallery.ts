@@ -1,16 +1,16 @@
 import { useState } from 'react'
-import { Image } from '../interfaces/IGallery'
+import { Image, SubReddit } from '../interfaces/IGallery'
 import { getGallery, getGalleryByTags } from '../services/gallery'
 
 const useGallery = () => {
   const [loading, setLoading] = useState(true)
   const [images, setImages] = useState<Image[]>([])
 
-  const getImagesFromGallery = gallery =>
+  const getImagesFromGallery = (gallery: SubReddit[] = []) =>
     gallery
-      ?.filter(g => {
+      .filter(g => {
         return (
-          g?.images?.length && g.images.every(i => i.type.startsWith('image'))
+          g.images?.length && g.images.every(i => i.type.startsWith('image'))
         )
       })
       .map(el => el.images)
@@ -21,25 +21,27 @@ const useGallery = () => {
       setLoading(true)
       const {
         data: { data: subReddit }
-      } = await getGallery('top', 'day', pageNum)
+      } = await getGallery(pageNum)
 
-      setImages(imgs => {
-        return [...imgs, ...getImagesFromGallery(subReddit)]
-      })
+      const filteredImages = getImagesFromGallery(subReddit)
+
+      setImages(imgs => [...imgs, ...filteredImages])
     } finally {
       setLoading(true)
     }
   }
-  const fetchGalleryByTags = async searchQuery => {
+  const fetchGalleryByTags = async (searchQuery, pageNum) => {
     try {
       setLoading(true)
       const {
         data: {
           data: { items: subReddit }
         }
-      } = await getGalleryByTags(searchQuery)
+      } = await getGalleryByTags(searchQuery, pageNum)
 
-      setImages(getImagesFromGallery(subReddit || []))
+      const searchImages = getImagesFromGallery(subReddit)
+
+      setImages(searchImages)
     } finally {
       setLoading(false)
     }

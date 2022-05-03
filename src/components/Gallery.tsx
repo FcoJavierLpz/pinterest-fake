@@ -38,7 +38,7 @@ const Gallery = () => {
     if (!searchQuery.length) {
       fetchGallery(pageNum)
     } else {
-      fetchGalleryByTags(searchQuery)
+      fetchGalleryByTags(searchQuery, pageNum)
     }
   }, [pageNum, searchQuery])
 

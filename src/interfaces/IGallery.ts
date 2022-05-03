@@ -54,7 +54,7 @@ export interface SubReddit {
   layout?: Layout
   images_count?: number
   include_album_ads?: boolean
-  images?: Image[]
+  images: Image[]
 }
 
 export interface AdConfig {
