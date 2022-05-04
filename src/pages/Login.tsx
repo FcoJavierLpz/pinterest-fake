@@ -2,6 +2,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import imgBackground from '../assets/bg-right.svg'
+import Button from '../components/Button'
 import FormCheckbox from '../components/FormCheckbox'
 import FormError from '../components/FormError'
 import FormInput from '../components/FormInput'
@@ -48,7 +49,7 @@ const SignIn = () => {
       }
     }
   }
-  const LoginUser = async ({ email, password }) => {
+  const loginUser = async ({ email, password }) => {
     try {
       await signIn?.(email, password)
 
@@ -153,20 +154,16 @@ const SignIn = () => {
                 </div>
                 <div className="mt-10">
                   <div className="flex gap-5">
-                    <button
+                    <Button
                       onClick={handleSubmit(createUser)}
-                      type="submit"
                       className="w-full flex justify-center py-3 px-5 border border-transparent text-md font-medium rounded-md text-white bg-orange-600 focus:outline-none focus:shadow-outline-indigo transition duration-150 ease-in-out"
-                    >
-                      Sign Up
-                    </button>
-                    <button
-                      onClick={handleSubmit(LoginUser)}
-                      type="submit"
+                      text="Sign Up"
+                    />
+                    <Button
+                      onClick={handleSubmit(loginUser)}
                       className="w-full flex justify-center py-3 px-5 text-md font-medium rounded-md  border border-orange-600 text-orange-600 focus:outline-none focus:shadow-outline-indigo transition duration-150 ease-in-out"
-                    >
-                      Sign In
-                    </button>
+                      text="Sign In"
+                    />
                   </div>
                 </div>
               </form>
@@ -177,7 +174,7 @@ const SignIn = () => {
           <img
             className="rounded-lg lg:ml-4"
             src={imgBackground}
-            alt="The new Tailwind"
+            alt="zero waster"
           />
         </div>
       </div>
