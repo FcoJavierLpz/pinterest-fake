@@ -14,7 +14,7 @@ const Button = ({ onClick, text, className, loading }: Props) => {
         text
       ) : (
         <>
-          <Loading className="inline w-8 h-8 mr-3 animate-spin" />
+          <Loading className="inline w-7 h-7 mr-2 animate-spin" />
           Loading...
         </>
       )}
