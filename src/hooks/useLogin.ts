@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useLocation, useNavigate } from 'react-router-dom'
 import useAuth from '../hooks/useAuth'
@@ -17,9 +18,18 @@ const useLogin = () => {
     password: string
   }
 
+  type LoaderLogin = {
+    isRegistering: boolean
+    isLoggedIn: boolean
+  }
+
   const navigate = useNavigate()
   const location = useLocation() as unknown as LocationProps
   const { signUp, signIn, loginWithGoogle } = useAuth()
+  const [loading, setLoading] = useState<LoaderLogin>({
+    isRegistering: false,
+    isLoggedIn: false
+  })
 
   const from = location.state?.from?.pathname || '/'
 
@@ -32,6 +42,7 @@ const useLogin = () => {
 
   const createUser: SubmitHandler<FormValues> = async ({ email, password }) => {
     try {
+      setLoading({ ...loading, isRegistering: true })
       await signUp?.(email, password)
       navigate('/')
     } catch (error) {
@@ -39,10 +50,13 @@ const useLogin = () => {
         const { code, message } = firebaseErrors(error)
         setError(code, { message })
       }
+    } finally {
+      setLoading({ ...loading, isRegistering: false })
     }
   }
   const loginUser = async ({ email, password }) => {
     try {
+      setLoading({ ...loading, isLoggedIn: true })
       await signIn?.(email, password)
 
       navigate(from, { replace: true })
@@ -51,6 +65,8 @@ const useLogin = () => {
         const { code, message } = firebaseErrors(error)
         setError(code, { message })
       }
+    } finally {
+      setLoading({ ...loading, isLoggedIn: false })
     }
   }
 
@@ -71,6 +87,7 @@ const useLogin = () => {
     register,
     handleSubmit,
     errors,
+    loading,
     createUser,
     loginUser,
     handleGoogleSignIn

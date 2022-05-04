@@ -12,6 +12,7 @@ const SignIn = () => {
     register,
     handleSubmit,
     errors,
+    loading,
     createUser,
     loginUser,
     handleGoogleSignIn
@@ -97,13 +98,15 @@ const SignIn = () => {
                 <div className="mt-10">
                   <div className="flex gap-5">
                     <Button
+                      loading={loading?.isRegistering}
                       onClick={handleSubmit(createUser)}
-                      className="w-full flex justify-center py-3 px-5 border border-transparent text-md font-medium rounded-md text-white bg-orange-600 focus:outline-none focus:shadow-outline-indigo transition duration-150 ease-in-out"
+                      className="w-full flex items-center justify-center py-3 px-5 border border-transparent text-md font-medium rounded-md text-white bg-orange-600 focus:outline-none focus:shadow-outline-indigo transition duration-150 ease-in-out"
                       text="Sign Up"
                     />
                     <Button
+                      loading={loading?.isLoggedIn}
                       onClick={handleSubmit(loginUser)}
-                      className="w-full flex justify-center py-3 px-5 text-md font-medium rounded-md  border border-orange-600 text-orange-600 focus:outline-none focus:shadow-outline-indigo transition duration-150 ease-in-out"
+                      className="w-full flex items-center justify-center py-3 px-5 text-md font-medium rounded-md  border border-orange-600 text-orange-600 focus:outline-none focus:shadow-outline-indigo transition duration-150 ease-in-out"
                       text="Sign In"
                     />
                   </div>
