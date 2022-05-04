@@ -118,42 +118,36 @@ const SignIn = () => {
             </p>
             <div className="w-full text-left">
               <form onSubmit={evt => evt.preventDefault()}>
-                <div>
-                  <FormInput
-                    type="text"
-                    placeholder="Username"
-                    {...register('username', {
-                      required,
-                      minLength
-                    })}
-                    error={errors.username}
-                  />
-                  <FormError error={errors.username} />
-                </div>
-                <div>
-                  <FormInput
-                    type="email"
-                    placeholder="Email address"
-                    {...register('email', {
-                      required,
-                      pattern: patternEmail
-                    })}
-                    error={errors.email}
-                  />
-                  <FormError error={errors.email} />
-                </div>
-                <div className="mt-2">
-                  <FormInput
-                    type="password"
-                    placeholder="Password"
-                    {...register('password', {
-                      required,
-                      minLength
-                    })}
-                    error={errors.password}
-                  />
-                  <FormError error={errors.password} />
-                </div>
+                <FormInput
+                  type="text"
+                  placeholder="Username"
+                  {...register('username', {
+                    required,
+                    minLength
+                  })}
+                  error={errors.username}
+                />
+                <FormError error={errors.username} />
+                <FormInput
+                  type="email"
+                  placeholder="Email address"
+                  {...register('email', {
+                    required,
+                    pattern: patternEmail
+                  })}
+                  error={errors.email}
+                />
+                <FormError error={errors.email} />
+                <FormInput
+                  type="password"
+                  placeholder="Password"
+                  {...register('password', {
+                    required,
+                    minLength
+                  })}
+                  error={errors.password}
+                />
+                <FormError error={errors.password} />
                 <div className="mt-3 flex flex-col md:flex-row justify-between">
                   <FormCheckbox />
                 </div>
