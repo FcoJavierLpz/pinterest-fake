@@ -1,79 +1,21 @@
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { useLocation, useNavigate } from 'react-router-dom'
-
 import imgBackground from '../assets/bg-right.svg'
 import Button from '../components/Button'
 import FormCheckbox from '../components/FormCheckbox'
 import FormError from '../components/FormError'
 import FormInput from '../components/FormInput'
-import useAuth from '../hooks/useAuth'
-import { firebaseErrors, isFirebaseError } from '../utils/firebaseErrors'
+import useLogin from '../hooks/useLogin'
 import { formValidate } from '../utils/formValidate'
 
 const SignIn = () => {
-  type LocationProps = {
-    state: {
-      from: Location
-    }
-  }
-
-  const navigate = useNavigate()
-  const location = useLocation() as unknown as LocationProps
-  const { signUp, signIn, loginWithGoogle } = useAuth()
-
   const { required, patternEmail, minLength } = formValidate()
-
-  type FormValues = {
-    username: string
-    email: string
-    password: string
-  }
-
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    setError
-  } = useForm<FormValues>()
-
-  const from = location.state?.from?.pathname || '/'
-
-  const createUser: SubmitHandler<FormValues> = async ({ email, password }) => {
-    try {
-      await signUp?.(email, password)
-      navigate('/')
-    } catch (error) {
-      if (isFirebaseError(error)) {
-        const { code, message } = firebaseErrors(error)
-        setError(code, { message })
-      }
-    }
-  }
-  const loginUser = async ({ email, password }) => {
-    try {
-      await signIn?.(email, password)
-
-      navigate(from, { replace: true })
-    } catch (error) {
-      if (isFirebaseError(error)) {
-        const { code, message } = firebaseErrors(error)
-        setError(code, { message })
-      }
-    }
-  }
-
-  const handleGoogleSignIn = async () => {
-    try {
-      await loginWithGoogle?.()
-
-      navigate(from, { replace: true })
-    } catch (error) {
-      if (isFirebaseError(error)) {
-        const { code, message } = firebaseErrors(error)
-        setError(code, { message })
-      }
-    }
-  }
+    errors,
+    createUser,
+    loginUser,
+    handleGoogleSignIn
+  } = useLogin()
 
   return (
     <div className="max-w-7xl relative z-10 m-auto px-6 grid h-screen">
