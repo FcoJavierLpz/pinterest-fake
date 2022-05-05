@@ -52,24 +52,24 @@ const Gallery = () => {
           images.map((image, index) => {
             if (images[images.length - 1].id !== image.id) {
               return (
-                <div
+                <article
                   key={`${index}${image.id}`}
                   onClick={() => openImageViewer(index)}
                 >
-                  <ImageCard img={image} />
-                </div>
+                  <ImageCard data={image} />
+                </article>
               )
             }
 
             return (
-              <div
+              <article
                 onClick={() => openImageViewer(index)}
                 key={`${index}${image.id}`}
                 ref={ref}
                 data-inview={inView}
               >
-                <ImageCard img={image} />
-              </div>
+                <ImageCard data={image} />
+              </article>
             )
           })
         ) : (
