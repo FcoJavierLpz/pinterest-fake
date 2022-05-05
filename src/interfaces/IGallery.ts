@@ -82,7 +82,7 @@ export enum UnsafeFlag {
 export interface Image {
   id: string
   title: null
-  description: null | string
+  description?: string
   datetime: number
   type: Type
   animated: boolean

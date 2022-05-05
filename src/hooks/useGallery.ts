@@ -30,6 +30,7 @@ const useGallery = () => {
       setLoading(true)
     }
   }
+
   const fetchGalleryByTags = async (searchQuery, pageNum) => {
     try {
       setLoading(true)
