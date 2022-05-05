@@ -1,14 +1,12 @@
 import { Image } from '../interfaces/IGallery'
 import { useInView } from 'react-intersection-observer'
-import useImageOnLoad from '../hooks/useImageOnLoad'
+import ProgressiveImage from './ProgressiveImage'
 
-type Props = {
-  img: Image
+type ImageCardProps = {
+  data: Image
 }
 
-const ImageCard = ({ img }: Props) => {
-  const { handleImageOnLoad, css } = useImageOnLoad()
-
+const ImageCard = ({ data }: ImageCardProps) => {
   const { ref, inView } = useInView({
     triggerOnce: true,
     rootMargin: '200px 0px'
@@ -20,27 +18,13 @@ const ImageCard = ({ img }: Props) => {
       ref={ref}
       data-inview={inView}
     >
-      {inView ? (
-        <>
-          <img
-            className="rounded-md absolute"
-            src={img.link}
-            alt={img.description || undefined}
-            style={{ ...css.thumbnail }}
-          />
-          <img
-            className="rounded-md"
-            src={img.link}
-            alt={img.description || undefined}
-            onLoad={handleImageOnLoad}
-            style={{ ...css.fullSize }}
-          />
-        </>
-      ) : (
-        <div>Load Image...</div>
-      )}
-      <figcaption className="mt-2">{img?.title}</figcaption>
-      <p className="text-sm text-gray-500 line-clamp-2">{img.description}</p>
+      <ProgressiveImage
+        url={data.link}
+        alt={data.description}
+        isVisible={inView}
+      />
+      <figcaption className="mt-2">{data?.title}</figcaption>
+      <p className="text-sm text-gray-500 line-clamp-2">{data.description}</p>
     </figure>
   )
 }
