@@ -27,7 +27,7 @@ const ProgressiveImage = ({
             style={{ ...css.thumbnail }}
           />
           <img
-            className="rounded-md"
+            className="rounded-md transition duration-500 ease-in hover:scale-[1.01]"
             src={url}
             alt={alt}
             onLoad={handleImageOnLoad}
